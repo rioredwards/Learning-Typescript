@@ -1,16 +1,41 @@
-function add(n1: number, n2: number, showResult: boolean, phrase: string) {
-    const result = n1 + n2;
+// const person: {
+//     name: string;
+//     age: number;
+// } = {
+//     name: "Rio",
+//     age: 25,
+// };
 
-    if (showResult) {
-        console.log(phrase + result);
-    } else {
-        return result;
-    }
+// const person: {
+//     name: string;
+//     age: number;
+//     hobbies: string[];
+//     role: [number, string];
+// } = {
+//     name: "Rio",
+//     age: 25,
+//     hobbies: ["sport", "ball"],
+//     role: [2, "admin"], // TUPLE "Array of fixed length/type"
+// };
+
+enum Role {
+    ADMIN,
+    READ_ONLY,
+    AUTHOR,
 }
 
-const number1 = 5;
-const number2 = 2.8;
-const printResult = true;
-const resultPhrase = "Result is: ";
+const person = {
+    name: "Rio",
+    age: 25,
+    hobbies: ["sport", "ball"],
+    role: Role.ADMIN, // ENUM "Automatically enumerated global constant identifiers"
+};
 
-add(number1, number2, printResult, resultPhrase);
+let favoriteActivities: string[];
+favoriteActivities = ["Playing ball"];
+
+console.log(person.name);
+
+for (const hobby of person.hobbies) {
+    console.log(hobby);
+}
