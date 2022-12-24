@@ -1,19 +1,19 @@
-// const person: {
-//     name: string;
-//     age: number;
-// } = {
-//     name: "Rio",
-//     age: 25,
-// };
-var person = {
-    name: "Rio",
-    age: 25,
-    hobbies: ["sport", "ball"]
-};
-var favoriteActivities;
-favoriteActivities = ["Playing ball"];
-console.log(person.name);
-for (var _i = 0, _a = person.hobbies; _i < _a.length; _i++) {
-    var hobby = _a[_i];
-    console.log(hobby);
+// Union Types: number | string
+// Literal Types: "as-number" | "as-text "
+function combine(input1, input2, resultConversion) {
+    var result;
+    if ((typeof input1 === "number" && typeof input2 === "number") ||
+        resultConversion === "as-number") {
+        result = +input1 + +input2;
+    }
+    else {
+        result = input1.toString() + input2.toString();
+    }
+    return result;
 }
+var combinedAges = combine(25, 30, "as-number");
+console.log(combinedAges);
+var combinedAgesString = combine("25", "30", "as-text");
+console.log(combinedAgesString);
+var combinedNames = combine("Rio", "Edwards", "as-text");
+console.log(combinedNames);
