@@ -1,31 +1,28 @@
-// Union Types: number | string
-// Literal Types: "as-number" | "as-text "
+// typed functions (specify type of return value)
+// functions as types (specify parameters types and return type)
 
-type Combinable = number | string; // Custom type (Type Alias)
-type ConversionDescriptor = "as-number" | "as-text"; // Custom type (Type Alias)
-
-function combine(
-    input1: Combinable,
-    input2: Combinable,
-    resultConversion: ConversionDescriptor
-) {
-    let result;
-    if (
-        (typeof input1 === "number" && typeof input2 === "number") ||
-        resultConversion === "as-number"
-    ) {
-        result = +input1 + +input2;
-    } else {
-        result = input1.toString() + input2.toString();
-    }
-    return result;
+// Returns a number
+function add(num1: number, num2: number): number {
+    return num1 + num2;
 }
 
-const combinedAges = combine(25, 30, "as-number");
-console.log(combinedAges);
+// Returns nothing
+function log(text: string): void {
+    console.log(text);
+}
 
-const combinedAgesString = combine("25", "30", "as-text");
-console.log(combinedAgesString);
+// let combineValues: Function; // Generic type "Function"
+let combineValues: (a: number, b: number) => number;
+combineValues = add;
 
-const combinedNames = combine("Rio", "Edwards", "as-text");
-console.log(combinedNames);
+console.log(combineValues(5, 10));
+
+// Callback functions
+function addAndHandle(num1: number, num2: number, cb: (num: number) => void) {
+    const result = num1 + num2;
+    cb(result);
+}
+
+addAndHandle(10, 10, (result) => {
+    console.log(result);
+});
