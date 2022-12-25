@@ -1,22 +1,14 @@
-// typed functions (specify type of return value)
-// functions as types (specify parameters types and return type)
-// Returns a number
-function add(num1, num2) {
-    return num1 + num2;
+// "unknown" type: better than "any" bc a check is required before assigning it to another variable
+var userInput;
+var userName;
+userInput = 5;
+userInput = "Rio";
+if (typeof userInput === "string") {
+    // Check (Typescript Compiler lets this through)
+    userName = userInput;
 }
-// Returns nothing
-function log(text) {
-    console.log(text);
+function generateError(message, code) {
+    console.log("hello");
+    throw { message: message, errorCode: code };
 }
-// let combineValues: Function; // Generic type "Function"
-var combineValues;
-combineValues = add;
-console.log(combineValues(5, 10));
-// Callback functions
-function addAndHandle(num1, num2, cb) {
-    var result = num1 + num2;
-    cb(result);
-}
-addAndHandle(10, 10, function (result) {
-    console.log(result);
-});
+generateError("This is an error!", 500);
