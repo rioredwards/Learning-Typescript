@@ -1,14 +1,15 @@
-/* Functions */
+/* Functions as types */
 
-// Specifying return type
-// Okay to leave this out in many cases because it can be inferred
+// Function types are used to describe the shape of a function
+// They are useful when we want to pass functions as arguments to other functions
 function add(n1: number, n2: number): number {
   return n1 + n2;
 }
 
-// Void return type
-function printResult(num: number): void {
-  console.log("Result: " + num);
-}
+let copyAdd1: Function; // Function type (generic type, less type safe)
+// OR
+let copyAdd2: (a: number, b: number) => number; // Function type (specifying the arguments and return type)
 
-printResult(add(5, 12));
+copyAdd2 = add; // Only allowed if the function types match
+
+console.log(copyAdd2(5, 12));
