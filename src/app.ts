@@ -1,6 +1,7 @@
 /* Classes */
 class Department {
-  private employees: string[] = [];
+  // Protected: private but accessible in inherited classes
+  protected employees: string[] = [];
 
   constructor(private readonly id: string, public name: string) {}
 
@@ -20,23 +21,17 @@ class Department {
 
 // Inheritance: This class automatically gets all the properties and methods of the Department class
 // and we can add more properties and methods to extend it
-class ITDepartment extends Department {
-  constructor(id: string, public admins: string[]) {
-    // Super is a keyword that acts as the constructor of the parent class
-    super(id, "IT");
-  }
-}
-
-const dev = new ITDepartment("1", ["Rio"]);
-
-dev.addEmployee("Max");
-dev.describe();
-dev.printEmployeeInformation();
-console.log(dev);
-
 class AccountingDepartment extends Department {
   constructor(id: string, private reports: string[]) {
     super(id, "Accounting");
+  }
+
+  // Overriding a method
+  addEmployee(employee: string): void {
+    if (employee === "Max") {
+      return;
+    }
+    this.employees.push(employee);
   }
 
   addReport(text: string) {
@@ -52,5 +47,4 @@ const accounting = new AccountingDepartment("2", []);
 
 accounting.addReport("Something went wrong...");
 accounting.printReports();
-
 console.log(accounting);
