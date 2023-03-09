@@ -1,14 +1,16 @@
-/* Callback function */
+/* Unknown */
 
-// This function takes a callback function as an argument
-// The callback has a return type of void in the context of this function even though it returns a number
-// TH
-function addAndHandle(n1: number, n2: number, cb: (num: number) => void) {
-  const result = n1 + n2;
-  cb(result);
+// Unknown is similar to any, but more strict and therefore safer.
+// Unlike any, unknown requires a type check before it can be used.
+
+let userInput: unknown;
+let userName: string;
+
+userInput = 5;
+userInput = "Max";
+
+if (typeof userInput === "string") {
+  // Type is string, so we can assign it to userName
+  console.log(userInput);
+  userName = userInput;
 }
-
-addAndHandle(10, 20, (result) => {
-  console.log(result);
-  return result;
-});
