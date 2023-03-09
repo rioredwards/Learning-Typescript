@@ -1,8 +1,5 @@
-/* Callback function */
-function addAndHandle(n1, n2, cb) {
-    var result = n1 + n2;
-    cb(result);
+/* Never */
+function generateError(message, code) {
+    throw { message: message, errorCode: code };
 }
-addAndHandle(10, 20, function (result) {
-    console.log(result);
-});
+generateError("An error occurred!", 500);
