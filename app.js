@@ -1,17 +1,22 @@
-/* Union Types */
-// Union Types are used to combine two or more types
-// This function can take numbers or strings as arguments
-function combine(n1, n2) {
-    if (typeof n1 === "number" && typeof n2 === "number") {
-        // If both arguments are numbers, then return the sum
-        return n1 + n2;
+/* Literal Types */
+// Literal types are types that are defined by a literal value
+// ex: foo: 1 is a literal type
+// resultConversion is a literal union type here
+// Literal union types are useful when you want to specify allowed values for a type
+function combine(n1, n2, resultConversion) {
+    var result;
+    if ((typeof n1 === "number" && typeof n2 === "number") ||
+        resultConversion === "as-number") {
+        result = +n1 + +n2;
     }
     else {
-        // If both arguments are strings, then return the concatenation
-        return n1.toString() + n2.toString();
+        result = n1.toString() + n2.toString();
     }
+    return result;
 }
-var combinedAges = combine(30, 26);
+var combinedAges = combine(30, 26, "as-number");
 console.log(combinedAges);
-var combinedNames = combine("Max", "Anna");
+var combinedStringAges = combine(30, 26, "as-number");
+console.log(combinedAges);
+var combinedNames = combine("Max", "Anna", "as-text");
 console.log(combinedNames);
