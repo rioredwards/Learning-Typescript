@@ -1,11 +1,8 @@
-/* Functions */
-// Specifying return type
-// Okay to leave this out in many cases because it can be inferred
-function add(n1, n2) {
-    return n1 + n2;
+/* Callback function */
+function addAndHandle(n1, n2, cb) {
+    var result = n1 + n2;
+    cb(result);
 }
-// Void return type
-function printResult(num) {
-    console.log("Result: " + num);
-}
-printResult(add(5, 12));
+addAndHandle(10, 20, function (result) {
+    console.log(result);
+});

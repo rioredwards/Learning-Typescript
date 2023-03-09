@@ -1,15 +1,14 @@
-/* Functions as types */
+/* Callback function */
 
-// Function types are used to describe the shape of a function
-// They are useful when we want to pass functions as arguments to other functions
-function add(n1: number, n2: number): number {
-  return n1 + n2;
+// This function takes a callback function as an argument
+// The callback has a return type of void in the context of this function even though it returns a number
+// TH
+function addAndHandle(n1: number, n2: number, cb: (num: number) => void) {
+  const result = n1 + n2;
+  cb(result);
 }
 
-let copyAdd1: Function; // Function type (generic type, less type safe)
-// OR
-let copyAdd2: (a: number, b: number) => number; // Function type (specifying the arguments and return type)
-
-copyAdd2 = add; // Only allowed if the function types match
-
-console.log(copyAdd2(5, 12));
+addAndHandle(10, 20, (result) => {
+  console.log(result);
+  return result;
+});
