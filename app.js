@@ -1,11 +1,8 @@
-/* Array types */
-// array of strings
-var favoriteActivities = ["Sports", "Cooking"];
-// array of any
-var favoriteCows;
-favoriteCows = ["Bessie", 6, true];
-for (var _i = 0, favoriteActivities_1 = favoriteActivities; _i < favoriteActivities_1.length; _i++) {
-    var activity = favoriteActivities_1[_i];
-    console.log(activity);
-}
-// export {}; // to avoid TS error: Cannot redeclare block-scoped variable 'favoriteActivities'.
+/* Tuples */
+var person = [10, "user"];
+person[1] = "admin";
+// Errors:
+// person[1] = 5; // Error: Tuple must have string at index 1
+// person[2] = "client"; // Error: Tuple must have length of 2
+person.push("client"); // GOTCHA! Not an error, but not a good idea
+console.log(person);

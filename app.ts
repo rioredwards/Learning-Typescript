@@ -1,13 +1,14 @@
-/* Array types */
+/* Tuples */
 
-// array of strings
-let favoriteActivities: string[] = ["Sports", "Cooking"];
+// Tuples are fixed length arrays with fixed types
+type role = [number, string];
 
-// array of any
-let favoriteCows: any[];
-favoriteCows = ["Bessie", 6, true];
+let person: role = [10, "user"];
+person[1] = "admin";
 
-for (const activity of favoriteActivities) {
-  // Able to use string methods on activities because typescript knows they are strings
-  console.log(activity.toUpperCase());
-}
+// Errors:
+// person[1] = 5; // Error: Tuple must have string at index 1
+// person[2] = "client"; // Error: Tuple must have length of 2
+person.push("client"); // GOTCHA! Not an error, but not a good idea
+
+console.log(person);
