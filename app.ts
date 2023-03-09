@@ -1,36 +1,13 @@
-/* Object Types */
-// Generic object type
-const person: object = {
-  name: "Rio",
-  age: 25,
-};
+/* Array types */
 
-// Specific object type
-const personImproved: {
-  name: string;
-  age: number;
-} = {
-  name: "Rio",
-  age: 25,
-};
+// array of strings
+let favoriteActivities: string[] = ["Sports", "Cooking"];
 
-// Nested object type
-const product: {
-  id: string;
-  price: number;
-  tags: string[];
-  details: {
-    title: string;
-    description: string;
-  };
-} = {
-  id: "abc1",
-  price: 12.99,
-  tags: ["great-offer", "hot-and-new"],
-  details: {
-    title: "Red Carpet",
-    description: "A great carpet - almost brand-new!",
-  },
-};
+// array of any
+let favoriteCows: any[];
+favoriteCows = ["Bessie", 6, true];
 
-console.log(personImproved.name);
+for (const activity of favoriteActivities) {
+  // Able to use string methods on activities because typescript knows they are strings
+  console.log(activity.toUpperCase());
+}
