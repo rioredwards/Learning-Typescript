@@ -1,42 +1,56 @@
 /* Classes */
-
 class Department {
-  //   id: string; // Property
-  //   name: string; // Property
-  private employees: string[] = []; // Private Property
+  private employees: string[] = [];
 
-  constructor(private readonly id: string, public name: string) {
-    // Alternative to declaring properties above
-    // Constructor
-    // this.name = n;
-    // this.id = id;
-  }
+  constructor(private readonly id: string, public name: string) {}
 
   describe(this: Department) {
-    // Method
-    // Note: passing in "this" tells TypeScript that this method should only be called on a Department object
     console.log("Department: " + this.name + " (" + this.id + ")");
   }
 
   addEmployee(employee: string) {
-    // Method
-    // this.id = "2"; // Error: Cannot assign to 'id' because it is a read-only property.
     this.employees.push(employee);
   }
 
   printEmployeeInformation() {
-    // Method
     console.log(this.employees.length);
     console.log(this.employees);
   }
 }
 
-// Instantiate a new object
-const accounting = new Department("1", "Accounting");
-accounting.addEmployee("Max");
-accounting.addEmployee("Manu");
+// Inheritance: This class automatically gets all the properties and methods of the Department class
+// and we can add more properties and methods to extend it
+class ITDepartment extends Department {
+  constructor(id: string, public admins: string[]) {
+    // Super is a keyword that acts as the constructor of the parent class
+    super(id, "IT");
+  }
+}
 
-// accounting.employees[2] = "Anna"; // Error: Property 'employees' is private and only accessible within class 'Department'.
+const dev = new ITDepartment("1", ["Rio"]);
 
-accounting.describe();
-accounting.printEmployeeInformation();
+dev.addEmployee("Max");
+dev.describe();
+dev.printEmployeeInformation();
+console.log(dev);
+
+class AccountingDepartment extends Department {
+  constructor(id: string, private reports: string[]) {
+    super(id, "Accounting");
+  }
+
+  addReport(text: string) {
+    this.reports.push(text);
+  }
+
+  printReports() {
+    console.log(this.reports);
+  }
+}
+
+const accounting = new AccountingDepartment("2", []);
+
+accounting.addReport("Something went wrong...");
+accounting.printReports();
+
+console.log(accounting);
