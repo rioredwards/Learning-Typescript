@@ -1,19 +1,17 @@
-/* Enums */
-// Enums are a way to define a set of named constants.
-// A great way to group values together with friendlier names.
-// Behind the scenes, enums are just numbers.
-// Traditionally, we use all caps for enums, but not always.
-var Role;
-(function (Role) {
-    Role[Role["ADMIN"] = 0] = "ADMIN";
-    Role[Role["READ_ONLY"] = 1] = "READ_ONLY";
-    Role[Role["AUTHOR"] = 2] = "AUTHOR";
-})(Role || (Role = {}));
-var person = {
-    name: "John",
-    age: 30,
-    role: Role.ADMIN
-};
-if (person.role === Role.ADMIN) {
-    console.log("is admin");
+/* Union Types */
+// Union Types are used to combine two or more types
+// This function can take numbers or strings as arguments
+function combine(n1, n2) {
+    if (typeof n1 === "number" && typeof n2 === "number") {
+        // If both arguments are numbers, then return the sum
+        return n1 + n2;
+    }
+    else {
+        // If both arguments are strings, then return the concatenation
+        return n1.toString() + n2.toString();
+    }
 }
+var combinedAges = combine(30, 26);
+console.log(combinedAges);
+var combinedNames = combine("Max", "Anna");
+console.log(combinedNames);
