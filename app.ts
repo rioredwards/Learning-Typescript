@@ -1,26 +1,10 @@
-/* Enums */
+/* Any */
 
-// Enums are a way to define a set of named constants.
-// A great way to group values together with friendlier names.
-// Behind the scenes, ENUMS ARE NUMBERS.
-// Traditionally, we use all caps for enums, but not always.
+// The any type takes away the type checking of the variable.
+// It is rarely used in TypeScript, but it is useful when you are migrating JavaScript code to TypeScript.
+// Avoid it if you can.
 
-enum Role {
-  ADMIN,
-  READ_ONLY,
-  AUTHOR,
-}
-
-const person: {
-  name: string;
-  age: number;
-  role: Role;
-} = {
-  name: "John",
-  age: 30,
-  role: Role.ADMIN,
-};
-
-if (person.role === Role.ADMIN) {
-  console.log("is admin");
-}
+// Example
+let notSure: any = 4;
+notSure = "maybe a string instead";
+notSure = false; // okay, definitely a boolean
