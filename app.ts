@@ -1,14 +1,26 @@
-/* Tuples */
+/* Enums */
 
-// Tuples are fixed length arrays with fixed types
-type role = [number, string];
+// Enums are a way to define a set of named constants.
+// A great way to group values together with friendlier names.
+// Behind the scenes, ENUMS ARE NUMBERS.
+// Traditionally, we use all caps for enums, but not always.
 
-let person: role = [10, "user"];
-person[1] = "admin";
+enum Role {
+  ADMIN,
+  READ_ONLY,
+  AUTHOR,
+}
 
-// Errors:
-// person[1] = 5; // Error: Tuple must have string at index 1
-// person[2] = "client"; // Error: Tuple must have length of 2
-person.push("client"); // GOTCHA! Not an error, but not a good idea
+const person: {
+  name: string;
+  age: number;
+  role: Role;
+} = {
+  name: "John",
+  age: 30,
+  role: Role.ADMIN,
+};
 
-console.log(person);
+if (person.role === Role.ADMIN) {
+  console.log("is admin");
+}

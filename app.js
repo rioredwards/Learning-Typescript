@@ -1,8 +1,19 @@
-/* Tuples */
-var person = [10, "user"];
-person[1] = "admin";
-// Errors:
-// person[1] = 5; // Error: Tuple must have string at index 1
-// person[2] = "client"; // Error: Tuple must have length of 2
-person.push("client"); // GOTCHA! Not an error, but not a good idea
-console.log(person);
+/* Enums */
+// Enums are a way to define a set of named constants.
+// A great way to group values together with friendlier names.
+// Behind the scenes, enums are just numbers.
+// Traditionally, we use all caps for enums, but not always.
+var Role;
+(function (Role) {
+    Role[Role["ADMIN"] = 0] = "ADMIN";
+    Role[Role["READ_ONLY"] = 1] = "READ_ONLY";
+    Role[Role["AUTHOR"] = 2] = "AUTHOR";
+})(Role || (Role = {}));
+var person = {
+    name: "John",
+    age: 30,
+    role: Role.ADMIN
+};
+if (person.role === Role.ADMIN) {
+    console.log("is admin");
+}
