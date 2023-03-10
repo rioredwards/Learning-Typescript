@@ -1,9 +1,11 @@
 /* Interface */
 
-// Interfaces are like blueprints for objects
-// Similar to abstract classes, but they can't be instantiated
-interface Greetable {
-  name: string;
+interface Named {
+  readonly name: string;
+}
+
+interface Greetable extends Named {
+  readonly name: string;
 
   greet(phrase: string): void;
 }
