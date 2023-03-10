@@ -1,6 +1,4 @@
-/* Abstract Classes */
-// Abstract classes are used to create a blueprint for other classes to extend
-// Abstract classes cannot be instantiated directly
+/* Singleton Classes */
 abstract class Department {
   protected employees: string[] = [];
 
@@ -10,9 +8,24 @@ abstract class Department {
   abstract describe(this: Department): void;
 }
 
+// Singleton Class
+// This class can only be instantiated once
+// The constructor is private
+// The static method getInstance() is used to create the instance
+// The static property instance is used to store the instance
 class AccountingDepartment extends Department {
-  constructor(id: string, private reports: string[]) {
+  static instance: AccountingDepartment;
+
+  private constructor(id: string, private reports: string[]) {
     super(id, "Accounting");
+  }
+
+  static getInstance() {
+    if (this.instance) {
+      return this.instance;
+    }
+    this.instance = new AccountingDepartment("2", []);
+    return this.instance;
   }
 
   describe(this: Department) {
@@ -20,5 +33,5 @@ class AccountingDepartment extends Department {
   }
 }
 
-const accounting = new AccountingDepartment("2", []);
+const accounting = AccountingDepartment.getInstance();
 accounting.describe();
