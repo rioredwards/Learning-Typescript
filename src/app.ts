@@ -1,21 +1,27 @@
 /* Interface */
 
 // Interfaces are like blueprints for objects
-interface Person {
+// Similar to abstract classes, but they can't be instantiated
+interface Greetable {
   name: string;
-  age: number;
 
   greet(phrase: string): void;
 }
 
-let user1: Person;
+class Person implements Greetable {
+  name: string;
+  age = 30;
 
-user1 = {
-  name: "Rio",
-  age: 25,
+  constructor(n: string) {
+    this.name = n;
+  }
+
   greet(phrase: string) {
     console.log(phrase + " " + this.name);
-  },
-};
+  }
+}
 
+let user1: Person;
+
+user1 = new Person("Rio");
 user1.greet("Hi there - I am");
