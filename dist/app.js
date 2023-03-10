@@ -7,6 +7,7 @@ class Department {
         // Protected: private but accessible in inherited classes
         this.employees = [];
     }
+    // Static method
     static createEmployee(name) {
         return { name: name };
     }
@@ -21,6 +22,8 @@ class Department {
         console.log(this.employees);
     }
 }
+Department.fiscalYear = 2020;
 const employee1 = Department.createEmployee("Max");
+console.log(Department.fiscalYear);
 console.log(employee1);
 //# sourceMappingURL=app.js.map
