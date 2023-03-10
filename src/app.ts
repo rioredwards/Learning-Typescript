@@ -1,30 +1,24 @@
-/* Classes */
-class Department {
-  static fiscalYear = 2020;
-  // Protected: private but accessible in inherited classes
+/* Abstract Classes */
+// Abstract classes are used to create a blueprint for other classes to extend
+// Abstract classes cannot be instantiated directly
+abstract class Department {
   protected employees: string[] = [];
 
   constructor(private readonly id: string, public name: string) {}
 
-  // Static method
-  static createEmployee(name: string) {
-    return { name: name };
+  // This is an abstract method. It must be defined in any classes that extend this class
+  abstract describe(this: Department): void;
+}
+
+class AccountingDepartment extends Department {
+  constructor(id: string, private reports: string[]) {
+    super(id, "Accounting");
   }
 
   describe(this: Department) {
-    console.log("Department: " + this.name + " (" + this.id + ")");
-  }
-
-  addEmployee(employee: string) {
-    this.employees.push(employee);
-  }
-
-  printEmployeeInformation() {
-    console.log(this.employees.length);
-    console.log(this.employees);
+    console.log("Accounting Department");
   }
 }
 
-const employee1 = Department.createEmployee("Max");
-console.log(Department.fiscalYear);
-console.log(employee1);
+const accounting = new AccountingDepartment("2", []);
+accounting.describe();
