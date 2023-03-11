@@ -1,43 +1,27 @@
-/* Type casting */
+/* Function Overloads */
+type Combinable = number | string;
 
-// Type casting: tell TypeScript that we know what type something is
-// 2 syntaxes for type casting:
+// Function overloads: allow us to define the possible types of a function
+// This is important for functions that could return different types
+// Otherwise TypeScript blocks from using type-specific methods from values returned
 
-// angle bracket syntax: <HTMLInputElement>
-const paragraphElement = <HTMLParagraphElement>(
-  document.getElementById("paragraph")
-);
-
-// "as" syntax: as HTMLInputElement
-// (preferred because it doesn't conflict with JSX)
-// NOTE the ! operator: means this element will not be null
-const userInputElement = document.getElementById(
-  "user-input"
-)! as HTMLInputElement;
-
-userInputElement.value = "Hi there!";
-
-// How to check if an element exists before type casting
-if (userInputElement) {
-  (userInputElement as HTMLInputElement).value = "Hi there!";
+function add(a: number, b: number): number;
+function add(a: string, b: string): string;
+function add(a: number, b: string): string;
+function add(a: string, b: number): string;
+function add(a: Combinable, b: Combinable): Combinable {
+  if (typeof a === "string" || typeof b === "string") {
+    return a.toString() + b.toString();
+  }
+  return a + b;
 }
 
-/* Index properties */
+// In the case we add two strings, we know the result will be a string
+// But the type is still Combinable, which means we can't use string methods
+// We can use function overloads to fix this
+const numResult = add(30, 26);
+const stringResult = add("Rio", "Edwards");
 
-// Index properties: allow us to create objects with dynamic properties
-// e.g. we don't know the name of the properties ahead of time
-
-// We might want to create an object that stores error messages
-// But we want it to be flexible.
-// e.g. It might not have an email property
-interface ErrorContainer {
-  // { email: 'Not a valid email', username: 'Must start with a character' }
-  // Index property!
-  // key: string, value: string
-  [prop: string]: string;
-}
-
-const errorBag: ErrorContainer = {
-  email: "Not a valid email!",
-  username: "Must start with a capital character!",
-};
+// Now we can freely use string/number methods on the results
+numResult.toFixed(2);
+stringResult.split(" ");

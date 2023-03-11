@@ -1,20 +1,16 @@
 "use strict";
-/* Type casting */
-// Type casting: tell TypeScript that we know what type something is
-// 2 syntaxes for type casting:
-// angle bracket syntax: <HTMLInputElement>
-const paragraphElement = (document.getElementById("paragraph"));
-// "as" syntax: as HTMLInputElement
-// (preferred because it doesn't conflict with JSX)
-// NOTE the ! operator: means this element will not be null
-const userInputElement = document.getElementById("user-input");
-userInputElement.value = "Hi there!";
-// How to check if an element exists before type casting
-if (userInputElement) {
-    userInputElement.value = "Hi there!";
+function add(a, b) {
+    if (typeof a === "string" || typeof b === "string") {
+        return a.toString() + b.toString();
+    }
+    return a + b;
 }
-const errorBag = {
-    email: "Not a valid email!",
-    username: "Must start with a capital character!",
-};
+// In the case we add two strings, we know the result will be a string
+// But the type is still Combinable, which means we can't use string methods
+// We can use function overloads to fix this
+const numResult = add(30, 26);
+const stringResult = add("Rio", "Edwards");
+// Now we can freely use string/number methods on the results
+numResult.toFixed(2);
+stringResult.split(" ");
 //# sourceMappingURL=app.js.map
