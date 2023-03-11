@@ -16,3 +16,28 @@ const userInputElement = document.getElementById(
 )! as HTMLInputElement;
 
 userInputElement.value = "Hi there!";
+
+// How to check if an element exists before type casting
+if (userInputElement) {
+  (userInputElement as HTMLInputElement).value = "Hi there!";
+}
+
+/* Index properties */
+
+// Index properties: allow us to create objects with dynamic properties
+// e.g. we don't know the name of the properties ahead of time
+
+// We might want to create an object that stores error messages
+// But we want it to be flexible.
+// e.g. It might not have an email property
+interface ErrorContainer {
+  // { email: 'Not a valid email', username: 'Must start with a character' }
+  // Index property!
+  // key: string, value: string
+  [prop: string]: string;
+}
+
+const errorBag: ErrorContainer = {
+  email: "Not a valid email!",
+  username: "Must start with a capital character!",
+};

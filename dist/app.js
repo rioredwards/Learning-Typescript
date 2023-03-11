@@ -9,4 +9,12 @@ const paragraphElement = (document.getElementById("paragraph"));
 // NOTE the ! operator: means this element will not be null
 const userInputElement = document.getElementById("user-input");
 userInputElement.value = "Hi there!";
+// How to check if an element exists before type casting
+if (userInputElement) {
+    userInputElement.value = "Hi there!";
+}
+const errorBag = {
+    email: "Not a valid email!",
+    username: "Must start with a capital character!",
+};
 //# sourceMappingURL=app.js.map
