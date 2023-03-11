@@ -47,4 +47,9 @@ function countAndDescribe(element) {
 }
 console.log(countAndDescribe("Hi there!"));
 console.log(countAndDescribe(["Sports", "Cooking"]));
+// Using the keyof constraint (this ensures that the key exists in the object)
+function extractAndConvert(obj, key) {
+    return "Value: " + obj[key];
+}
+extractAndConvert({ name: "Rio" }, "name");
 //# sourceMappingURL=app.js.map
