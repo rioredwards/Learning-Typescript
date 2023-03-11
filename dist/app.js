@@ -1,16 +1,18 @@
 "use strict";
-function add(a, b) {
-    if (typeof a === "string" || typeof b === "string") {
-        return a.toString() + b.toString();
-    }
-    return a + b;
-}
-// In the case we add two strings, we know the result will be a string
-// But the type is still Combinable, which means we can't use string methods
-// We can use function overloads to fix this
-const numResult = add(30, 26);
-const stringResult = add("Rio", "Edwards");
-// Now we can freely use string/number methods on the results
-numResult.toFixed(2);
-stringResult.split(" ");
+var _a;
+/* Optional chaining */
+// Optional chaining: check if a property exists before accessing it
+const user = {
+    name: "John",
+    age: 30,
+    job: {
+        title: "Software Engineer",
+        company: "Google",
+    },
+};
+const maybeJob = (_a = user.job) === null || _a === void 0 ? void 0 : _a.title;
+/* Nullish Coalescing */
+// Nullish Coalescing: check if a value is null or undefined
+const userInput = null;
+const storedData = userInput !== null && userInput !== void 0 ? userInput : "DEFAULT";
 //# sourceMappingURL=app.js.map
