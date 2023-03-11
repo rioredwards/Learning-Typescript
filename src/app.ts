@@ -1,29 +1,12 @@
-/* Interface */
+/* Interfaces for Functions */
 
-interface Named {
-  readonly name: string;
+// type addFn = (a: number, b: number) => number;
+interface addFn {
+  (a: number, b: number): number;
 }
 
-interface Greetable extends Named {
-  readonly name: string;
+let add: addFn;
 
-  greet(phrase: string): void;
-}
-
-class Person implements Greetable {
-  name: string;
-  age = 30;
-
-  constructor(n: string) {
-    this.name = n;
-  }
-
-  greet(phrase: string) {
-    console.log(phrase + " " + this.name);
-  }
-}
-
-let user1: Person;
-
-user1 = new Person("Rio");
-user1.greet("Hi there - I am");
+add = (n1: number, n2: number) => {
+  return n1 + n2;
+};
