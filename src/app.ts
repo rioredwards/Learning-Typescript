@@ -1,119 +1,18 @@
-/* Intersection Types  */
+/* Type casting */
 
-// Intersection types combine multiple types into one type.
-// Similar to inheritance.
-// Can be used with types and interfaces.
+// Type casting: tell TypeScript that we know what type something is
+// 2 syntaxes for type casting:
 
-type Admin = {
-  name: string;
-  privileges: string[];
-};
+// angle bracket syntax: <HTMLInputElement>
+const paragraphElement = <HTMLParagraphElement>(
+  document.getElementById("paragraph")
+);
 
-type Employee = {
-  name: string;
-  startDate: Date;
-};
+// "as" syntax: as HTMLInputElement
+// (preferred because it doesn't conflict with JSX)
+// NOTE the ! operator: means this element will not be null
+const userInputElement = document.getElementById(
+  "user-input"
+)! as HTMLInputElement;
 
-// This is an intersection modifier. It combines properties.
-type ElevatedEmployee = Admin & Employee;
-
-const e1: ElevatedEmployee = {
-  name: "Max",
-  privileges: ["create-server"],
-  startDate: new Date(),
-};
-
-type Combinable = string | number;
-type Numeric = number | boolean;
-
-// The intersection operator can also be used to combine union types.
-// This type will get the common properties of both types... ie... number
-type Universal = Combinable & Numeric;
-
-/* Type guards */
-
-// Type guards are used to check the type of a variable.
-// Three types of type guards:
-// typeof: useful for primitives
-// in: useful for objects
-// instanceof: useful for objects
-
-// NOTE typeof is useful for primitives, but not for objects.
-function add(a: Combinable, b: Combinable) {
-  if (typeof a === "string" || typeof b === "string") {
-    return a.toString() + b.toString();
-  }
-  return a + b;
-}
-
-type unknownEmployee = Employee | Admin;
-
-// in is useful for objects.
-function printEmployeeInformation(emp: unknownEmployee) {
-  console.log("Name: " + emp.name);
-  if ("privileges" in emp) {
-    console.log("Privileges: " + emp.privileges);
-  }
-  if ("startDate" in emp) {
-    console.log("Start Date: " + emp.startDate);
-  }
-}
-
-printEmployeeInformation({ name: "Max", startDate: new Date() });
-
-class Car {
-  drive() {
-    console.log("Driving...");
-  }
-}
-
-class Truck {
-  drive() {
-    console.log("Driving a truck...");
-  }
-
-  loadCargo(amount: number) {
-    console.log("Loading cargo..." + amount);
-  }
-}
-
-type Vehicle = Car | Truck;
-
-const v1 = new Car();
-const v2 = new Truck();
-
-// instanceof is useful for objects .
-function useVehicle(vehicle: Vehicle) {
-  vehicle.drive();
-  if (vehicle instanceof Truck) {
-    vehicle.loadCargo(1000);
-  }
-}
-
-/* Discriminated Unions */
-// Discriminated unions are special type guards
-// They are useful when using union types with objects
-
-interface Bird {
-  type: "bird"; // Discriminator
-  flyingSpeed: number;
-}
-
-interface Horse {
-  type: "horse"; // Discriminator
-  runningSpeed: number;
-}
-
-type Animal = Bird | Horse;
-
-function moveAnimal(animal: Animal) {
-  let speed;
-  switch (animal.type) {
-    case "bird":
-      speed = animal.flyingSpeed;
-      break;
-    case "horse":
-      speed = animal.runningSpeed;
-  }
-  console.log("Moving at speed: " + speed);
-}
+userInputElement.value = "Hi there!";
