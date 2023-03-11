@@ -1,12 +1,31 @@
-/* Interfaces for Functions */
+/* Intersection Types  */
 
-// type addFn = (a: number, b: number) => number;
-interface addFn {
-  (a: number, b: number): number;
-}
+// Intersection types combine multiple types into one type.
+// Similar to inheritance.
+// Can be used with types and interfaces.
 
-let add: addFn;
-
-add = (n1: number, n2: number) => {
-  return n1 + n2;
+type Admin = {
+  name: string;
+  privileges: string[];
 };
+
+type Employee = {
+  name: string;
+  startDate: Date;
+};
+
+// This is an intersection modifier. It combines properties.
+type ElevatedEmployee = Admin & Employee;
+
+const e1: ElevatedEmployee = {
+  name: "Max",
+  privileges: ["create-server"],
+  startDate: new Date(),
+};
+
+type Combinable = string | number;
+type Numeric = number | boolean;
+
+// The intersection operator can also be used to combine union types.
+// This type will get the common properties of both types... ie... number
+type Universal = Combinable & Numeric;
