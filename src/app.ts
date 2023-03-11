@@ -89,3 +89,31 @@ function useVehicle(vehicle: Vehicle) {
     vehicle.loadCargo(1000);
   }
 }
+
+/* Discriminated Unions */
+// Discriminated unions are special type guards
+// They are useful when using union types with objects
+
+interface Bird {
+  type: "bird"; // Discriminator
+  flyingSpeed: number;
+}
+
+interface Horse {
+  type: "horse"; // Discriminator
+  runningSpeed: number;
+}
+
+type Animal = Bird | Horse;
+
+function moveAnimal(animal: Animal) {
+  let speed;
+  switch (animal.type) {
+    case "bird":
+      speed = animal.flyingSpeed;
+      break;
+    case "horse":
+      speed = animal.runningSpeed;
+  }
+  console.log("Moving at speed: " + speed);
+}
