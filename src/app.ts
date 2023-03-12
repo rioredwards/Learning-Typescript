@@ -1,6 +1,7 @@
 /* Generics */
 
-// Generics: can work with different types
+// Generics: Allow for flexibility and type safety
+// They allow you to work with different types
 // They can be functions/objects/etc...
 // When you use a generic, you can specify the type
 
@@ -70,3 +71,65 @@ function extractAndConvert<T extends object, U extends keyof T>(
 }
 
 extractAndConvert({ name: "Rio" }, "name");
+
+/* Generic classes */
+
+// This class uses a generic type
+// We use a generic to constrain the type of data that can be stored in the class
+// Because the method "removeItem" only works on primitive types
+class dataStorage<T extends string | number | boolean> {
+  private data: T[] = [];
+
+  addItem(item: T) {
+    this.data.push(item);
+  }
+
+  removeItem(item: T) {
+    if (this.data.indexOf(item) === -1) {
+      return;
+    }
+    this.data.splice(this.data.indexOf(item), 1);
+  }
+
+  getItems() {
+    return [...this.data];
+  }
+}
+
+const textStorage = new dataStorage<string>();
+textStorage.addItem("Rio");
+textStorage.addItem("Makaela");
+textStorage.removeItem("Rio");
+console.log(textStorage.getItems());
+
+/* Generic Utility Types */
+
+// Utility types are built into typescript
+// They allow for some convenient type manipulation in generics
+
+// Partial: Allows you to make all properties of an object optional
+interface CourseGoal {
+  title: string;
+  description: string;
+  completeUntil: Date;
+}
+
+// This function returns a CourseGoal object
+// However we may want to construct the CourseGoal object in stages
+// Therefore we can use the Partial utility type to make all properties optional
+function createCourseGoal(
+  title: string,
+  description: string,
+  date: Date
+): CourseGoal {
+  let courseGoal: Partial<CourseGoal> = {}; // Partial utility type
+  courseGoal.title = title;
+  courseGoal.description = description;
+  courseGoal.completeUntil = date;
+  return courseGoal as CourseGoal; // All properties are now added, so we can cast to CourseGoal
+}
+
+// Readonly: Makes all properties of an object readonly
+const names: Readonly<string[]> = ["Rio", "Makaela"];
+// names.push("Rio Jr."); // This will throw an error
+// names.pop(); // This will throw an error

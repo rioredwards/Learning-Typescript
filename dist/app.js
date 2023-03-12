@@ -1,6 +1,7 @@
 "use strict";
 /* Generics */
-// Generics: can work with different types
+// Generics: Allow for flexibility and type safety
+// They allow you to work with different types
 // They can be functions/objects/etc...
 // When you use a generic, you can specify the type
 // Arrays are generic types, so these two are equivalent
@@ -52,4 +53,44 @@ function extractAndConvert(obj, key) {
     return "Value: " + obj[key];
 }
 extractAndConvert({ name: "Rio" }, "name");
+/* Generic classes */
+// This class uses a generic type
+// We use a generic to constrain the type of data that can be stored in the class
+// Because the method "removeItem" only works on primitive types
+class dataStorage {
+    constructor() {
+        this.data = [];
+    }
+    addItem(item) {
+        this.data.push(item);
+    }
+    removeItem(item) {
+        if (this.data.indexOf(item) === -1) {
+            return;
+        }
+        this.data.splice(this.data.indexOf(item), 1);
+    }
+    getItems() {
+        return [...this.data];
+    }
+}
+const textStorage = new dataStorage();
+textStorage.addItem("Rio");
+textStorage.addItem("Makaela");
+textStorage.removeItem("Rio");
+console.log(textStorage.getItems());
+// This function returns a CourseGoal object
+// However we may want to construct the CourseGoal object in stages
+// Therefore we can use the Partial utility type to make all properties optional
+function createCourseGoal(title, description, date) {
+    let courseGoal = {}; // Partial utility type
+    courseGoal.title = title;
+    courseGoal.description = description;
+    courseGoal.completeUntil = date;
+    return courseGoal; // All properties are now added, so we can cast to CourseGoal
+}
+// Readonly: Makes all properties of an object readonly
+const names = ["Rio", "Makaela"];
+// names.push("Rio Jr."); // This will throw an error
+// names.pop(); // This will throw an error
 //# sourceMappingURL=app.js.map
