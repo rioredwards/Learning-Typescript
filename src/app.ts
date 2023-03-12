@@ -4,6 +4,8 @@
 // They allow you to work with different types
 // They can be functions/objects/etc...
 // When you use a generic, you can specify the type
+// Note: They can seem similar to union types, but they have a key difference
+// Generics "Lock in" the type that is originally specified, whereas union types can change
 
 // Arrays are generic types, so these two are equivalent
 const arr1: any[] = [1, 2, 3];
