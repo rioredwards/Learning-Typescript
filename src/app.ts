@@ -1,137 +1,317 @@
-/* Generics */
+/* Decorators */
+// NOTE: enable experimentalDecorators in tsconfig.json
 
-// Generics: Allow for flexibility and type safety
-// They allow you to work with different types
-// They can be functions/objects/etc...
-// When you use a generic, you can specify the type
-// Note: They can seem similar to union types, but they have a key difference
-// Generics "Lock in" the type that is originally specified, whereas union types can change
+// A form of Meta programming
+// Decorators are functions that can be attached to classes, methods, properties, and parameters.
+// They run when the code is compiled, not when it is executed.
+// They don't affect the final code, but can help with debugging and logging.
 
-// Arrays are generic types, so these two are equivalent
-const arr1: any[] = [1, 2, 3];
-const arr2: Array<any> = [1, 2, 3];
-
-// Here we specify the type of array to be a string
-const strArray: Array<string> = ["a", "b", "c"];
-// Here we specify the type of array to be a number
-const numArray: Array<number> = [1, 2, 3];
-
-// Promise is a generic type
-// Here we specify the return type of the promise to be a string
-const promise: Promise<string> = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve("This is done!");
-  }, 2000);
-});
-
-// Therefore we can use string methods on the returned data
-promise.then((data) => {
-  data.split(" ");
-});
-
-/* Creating our own generics */
-
-// This is a function using a generic type
-// This is more specific than setting the types of the parameters to any or object
-// The return type is the intersection of the two objects
-// We added constraints to the parameter types... they must be objects
-function merge<T extends object, U extends object>(objA: T, objB: U) {
-  return { ...objA, ...objB };
+// This will run when the code is compiled, so it will log the constructor of the Person class.
+function Logger(constructor: Function) {
+  console.log("Logging...");
+  console.log(constructor);
 }
 
-// Typescript is able to infer the type of the parameters and therefore the return type
-const mergedObj = merge({ name: "Rio" }, { age: 25 });
+@Logger // This is a decorator. It is attached to the class and calls the logger function.
+class Person1 {
+  name = "Max";
 
-// This interface is used to constrain the type of the element passed into countAndDescribe
-interface Lengthy {
-  length: number;
-}
-
-// This function uses a generic type
-// The parameter type is constrained by the Lengthy interface
-// This asserts that any parameter passed into this function must have a length property
-// We use generics to say "I don't care what the type is, but it must have a length property"
-function countAndDescribe<T extends Lengthy>(element: T): [T, string] {
-  let descriptionText = "Got no value.";
-  if (element.length === 1) {
-    descriptionText = "Got 1 element.";
-  } else if (element.length > 1) {
-    descriptionText = "Got " + element.length + " elements.";
+  constructor() {
+    console.log("Creating person object...");
   }
-  return [element, descriptionText];
 }
 
-console.log(countAndDescribe("Hi there!"));
-console.log(countAndDescribe(["Sports", "Cooking"]));
+/* Decorator Factory */
 
-// Using the keyof constraint (this ensures that the key exists in the object)
-function extractAndConvert<T extends object, U extends keyof T>(
-  obj: T,
-  key: U
-) {
-  return "Value: " + obj[key];
+// This is a decorator factory. It is a function that returns a decorator.
+// This allows the decorator to be configured with parameters.
+// In this example, the decorator takes a string as an argument.
+
+// THis function returns a decorator.
+function loggerFactory(logString: string) {
+  // This is the decorator.
+  return function (constructor: Function) {
+    console.log(logString);
+    console.log(constructor);
+  };
 }
 
-extractAndConvert({ name: "Rio" }, "name");
+@loggerFactory("LOGGING - PERSON")
+class Person2 {
+  name = "Max";
 
-/* Generic classes */
-
-// This class uses a generic type
-// We use a generic to constrain the type of data that can be stored in the class
-// Because the method "removeItem" only works on primitive types
-class dataStorage<T extends string | number | boolean> {
-  private data: T[] = [];
-
-  addItem(item: T) {
-    this.data.push(item);
+  constructor() {
+    console.log("Creating person object...");
   }
+}
 
-  removeItem(item: T) {
-    if (this.data.indexOf(item) === -1) {
-      return;
+/* Decorator with template */
+
+// This decorator will render a template to the DOM.
+// Using this, we can visualize properties of the person class in the DOM.
+// This is actually a pattern used in Angular.
+function withTemplate1(template: string, hookId: string) {
+  console.log("Template Factory");
+
+  return function (personConstructor: any) {
+    console.log("Rendering template");
+    // This constructor is passed in as an argument.
+    // We can use it in the decorator to create a new instance of the class.
+    const person = new personConstructor();
+    const hookEl = document.getElementById(hookId);
+    if (hookEl) {
+      hookEl.innerHTML = template;
+      hookEl.querySelector("h1")!.textContent = person.name;
     }
-    this.data.splice(this.data.indexOf(item), 1);
-  }
+  };
+}
 
-  getItems() {
-    return [...this.data];
+// This is a decorator that attaches to withTemplate.
+// It takes in arguments that are passed to withTemplate.
+// The function finds the hookId element in the DOM and renders the h1 tag with the name property
+@loggerFactory("LOGGING")
+@withTemplate1("<h1>My Person Object</h1>", "app")
+class Person3 {
+  name = "Rio";
+
+  constructor() {
+    console.log("Creating person object...");
   }
 }
 
-const textStorage = new dataStorage<string>();
-textStorage.addItem("Rio");
-textStorage.addItem("Makaela");
-textStorage.removeItem("Rio");
-console.log(textStorage.getItems());
+/* Property, Accessor, Method and Parameter Decorators */
 
-/* Generic Utility Types */
+// This is a property decorator.
+// It takes 2 arguments: the target object and the name of the property.
+function Log(target: any, propertyName: string | Symbol) {
+  console.log("Property decorator!");
+  console.log(target, propertyName);
+}
 
-// Utility types are built into typescript
-// They allow for some convenient type manipulation in generics
+// This is an accessor decorator.
+// Accessors are setters and getters.
+function Log2(target: any, name: string, descriptor: PropertyDescriptor) {
+  console.log("Accessor decorator!");
+  console.log(target);
+  console.log(name);
+  console.log(descriptor);
+}
 
-// Partial: Allows you to make all properties of an object optional
-interface CourseGoal {
+// This is a method decorator.
+// It takes 3 arguments: the target object, the name of the method, and the descriptor.
+function Log3(
+  target: any,
+  name: string | Symbol,
+  descriptor: PropertyDescriptor
+) {
+  console.log("Method decorator!");
+  console.log(target);
+  console.log(name);
+  console.log(descriptor);
+}
+
+// This is a parameter decorator.
+// It takes 3 arguments: the target object, the name of the method, and the position of the parameter.
+function Log4(target: any, name: string | Symbol, position: number) {
+  console.log("Parameter decorator!");
+  console.log(target);
+  console.log(name);
+  console.log(position);
+}
+
+class Product {
+  @Log
   title: string;
-  description: string;
-  completeUntil: Date;
+  private _price: number;
+
+  @Log2
+  set price(val: number) {
+    if (val > 0) {
+      this._price = val;
+    } else {
+      throw new Error("Invalid price - should be positive!");
+    }
+  }
+
+  constructor(t: string, p: number) {
+    this.title = t;
+    this._price = p;
+  }
+
+  @Log3
+  getPriceWithTax(@Log4 tax: number) {
+    return this._price * (1 + tax);
+  }
 }
 
-// This function returns a CourseGoal object
-// However we may want to construct the CourseGoal object in stages
-// Therefore we can use the Partial utility type to make all properties optional
-function createCourseGoal(
-  title: string,
-  description: string,
-  date: Date
-): CourseGoal {
-  let courseGoal: Partial<CourseGoal> = {}; // Partial utility type
-  courseGoal.title = title;
-  courseGoal.description = description;
-  courseGoal.completeUntil = date;
-  return courseGoal as CourseGoal; // All properties are now added, so we can cast to CourseGoal
+/* Returning and changing classes with a decorator */
+
+// NOTE Classes === Constructor functions
+// This means that a constructor has all that we need to create a new instance of a class.
+
+// NOTE: If a class decorator returns a new constructor function, the original constructor function will be replaced with the new one.
+
+// UPDATED: This now is called when a new instance of the class is created.
+// decorator factory returns -> decorator returns -> class
+// It doesn't render to the DOM anymore, but it does log to the console.
+// The decorator factory takes in the template and hookId.
+// The decorator takes in the original constructor.
+// The decorator returns a new constructor. (extending the original class in this case)
+// The syntax for defining the type of a constructor is: { new (...args: any[]): { name: string } }
+// The type of the decorator is a generic function that takes in a constructor function.
+// End result: modify the class that the decorator is attached to
+function withTemplate2(template: string, hookId: string) {
+  console.log("Template Factory");
+  return function <T extends { new (...args: any[]): { name: string } }>(
+    originalConstructor: T
+  ) {
+    return class extends originalConstructor {
+      constructor(..._: any[]) {
+        super(); // Super calls the constructor of the original class. (needed to extend the class)
+        console.log("Rendering template");
+        const hookEl = document.getElementById(hookId);
+        if (hookEl) {
+          hookEl.innerHTML = template;
+          hookEl.querySelector("h1")!.textContent = this.name;
+        }
+      }
+    };
+  };
 }
 
-// Readonly: Makes all properties of an object readonly
-const names: Readonly<string[]> = ["Rio", "Makaela"];
-// names.push("Rio Jr."); // This will throw an error
-// names.pop(); // This will throw an error
+/* Other decorator return types */
+
+// Class: returning a constructor function replaces the original constructor function
+// Accessor (Getters/setters): returns are not ignored
+// Method: returns are not
+// Property: returns are ignored
+// Parameter: returns are ignored
+
+// NOTE Property descriptors are objects that describe the properties of a class.
+// They exist in vanilla JS
+const PropertyDescriptor = {
+  configurable: true,
+  enumerable: true,
+  value: 10,
+  writable: true,
+};
+
+// This is a decorator factory.
+// it should be added to a method to autobind "this" in the method to refer to the instance of the class that called it.
+// We can use the descriptor to get the original method and then return a new descriptor that has a getter that returns a bound function
+function Autobind(
+  _: any,
+  _2: string,
+  descriptor: PropertyDescriptor
+): PropertyDescriptor {
+  const originalMethod = descriptor.value;
+  const adjDescriptor: PropertyDescriptor = {
+    configurable: true,
+    enumerable: false,
+    get() {
+      const boundFn = originalMethod.bind(this);
+      return boundFn;
+    },
+  };
+  return adjDescriptor;
+}
+
+class Printer {
+  message = "This works!";
+
+  @Autobind
+  showMessage() {
+    console.log(this.message);
+  }
+}
+
+const p = new Printer();
+
+const button = document.querySelector("button")!;
+// A problem arises when we want the "this" keyword to refer to the class instance.
+// Because in the event listener, "this" refers to the button element.
+// We could use bind to fix this:
+// button.addEventListener("click", p.showMessage.bind(p));
+// but we can also use a decorator to autobind "this" to the class instance.
+button.addEventListener("click", p.showMessage);
+
+/* Validating with decorators */
+
+interface ValidatorConfig {
+  [property: string]: {
+    [validatableProp: string]: string[]; // ['required', 'positive']
+  };
+}
+
+const registeredValidators: ValidatorConfig = {};
+
+function Required(target: any, propName: string) {
+  registeredValidators[target.constructor.name] = {
+    ...registeredValidators[target.constructor.name],
+    [propName]: [
+      ...(registeredValidators[target.constructor.name]?.[propName] ?? []),
+      "required",
+    ],
+  };
+}
+
+function PositiveNumber(target: any, propName: string) {
+  registeredValidators[target.constructor.name] = {
+    ...registeredValidators[target.constructor.name],
+    [propName]: [
+      ...(registeredValidators[target.constructor.name]?.[propName] ?? []),
+      "positive",
+    ],
+  };
+}
+
+function validate(obj: any) {
+  const objValidatorConfig = registeredValidators[obj.constructor.name];
+  if (!objValidatorConfig) {
+    return true;
+  }
+  let isValid = true;
+  for (const prop in objValidatorConfig) {
+    for (const validator of objValidatorConfig[prop]) {
+      switch (validator) {
+        case "required":
+          isValid = isValid && !!obj[prop];
+          break;
+        case "positive":
+          isValid = isValid && obj[prop] > 0;
+          break;
+      }
+    }
+  }
+  return isValid;
+}
+
+class Course {
+  @Required
+  title: string;
+  @PositiveNumber
+  price: number;
+
+  constructor(t: string, p: number) {
+    this.title = t;
+    this.price = p;
+  }
+}
+
+const courseForm = document.querySelector("form")!;
+
+courseForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const titleEl = document.getElementById("title") as HTMLInputElement;
+  const priceEl = document.getElementById("price") as HTMLInputElement;
+
+  const title = titleEl.value;
+  const price = +priceEl.value;
+
+  const createdCourse = new Course(title, price);
+  if (!validate(createdCourse)) {
+    alert("Invalid input, please try again!");
+    return;
+  }
+  console.log(createdCourse);
+});
